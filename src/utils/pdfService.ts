@@ -50,7 +50,7 @@ export async function renderTemplatePageToImage(
   canvas.height = Math.round(renderViewport.height);
   const ctx = canvas.getContext('2d');
   if (!ctx) {
-    throw new Error('Gagal mendapatkan konteks kanvas 2D untuk pratonton PDF.');
+    throw new Error('Gagal mendapatkan konteks kanvas 2D untuk previu PDF.');
   }
 
   await page.render({ canvasContext: ctx, viewport: renderViewport }).promise;

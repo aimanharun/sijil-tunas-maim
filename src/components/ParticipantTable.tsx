@@ -280,7 +280,7 @@ export const ParticipantTable: React.FC<ParticipantTableProps> = ({
                           className={`p-1.5 rounded-lg cursor-pointer transition-colors ${
                             isPreviewed ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:bg-slate-100 hover:text-slate-700'
                           }`}
-                          title="Pratonton sijil"
+                          title="Previu sijil"
                         >
                           <Eye className="w-3.5 h-3.5" />
                         </button>

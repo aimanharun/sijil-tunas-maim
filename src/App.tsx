@@ -93,7 +93,7 @@ function buildInitialSettings(): Record<CertificateTypeId, CertificateSettings> 
 const STEP_CONFIG = [
   { id: 'select' as WorkflowStep, label: 'Pilih Jenis Sijil', icon: Award, step: 1 },
   { id: 'participants' as WorkflowStep, label: 'Senarai Peserta', icon: Users, step: 2 },
-  { id: 'studio' as WorkflowStep, label: 'Kalibrasi & Pratonton', icon: Sliders, step: 3 },
+  { id: 'studio' as WorkflowStep, label: 'Kalibrasi & Previu', icon: Sliders, step: 3 },
 ];
 
 export function App() {
@@ -125,7 +125,7 @@ export function App() {
     setIsLoadingTemplate(true);
     try {
       const resp = await fetch('/sijil-template.pdf');
-      if (!resp.ok) throw new Error('Gagal memuatkan templat PDF lalai.');
+      if (!resp.ok) throw new Error('Gagal memuatkan sijil PDF lalai.');
       const buf = await resp.arrayBuffer();
       const pages = await getPdfPageCount(buf);
       setTemplateBytes(buf);
@@ -133,7 +133,7 @@ export function App() {
       setTemplatePageCount(pages);
       setRenderedPages({});
     } catch (err) {
-      setUploadError(err instanceof Error ? err.message : 'Gagal memuatkan templat PDF.');
+      setUploadError(err instanceof Error ? err.message : 'Gagal memuatkan sijil PDF.');
     } finally {
       setIsLoadingTemplate(false);
     }
@@ -183,7 +183,7 @@ export function App() {
       setTemplateFileName(file.name);
       setTemplatePageCount(pages);
       setRenderedPages({});
-      setStatusBanner(`Templat ditukar kepada ${file.name} (${pages} halaman).`);
+      setStatusBanner(`Sijil ditukar kepada ${file.name} (${pages} halaman).`);
     } catch (err) {
       setUploadError(err instanceof Error ? err.message : 'Fail PDF tidak sah atau rosak.');
     } finally {

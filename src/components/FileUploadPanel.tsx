@@ -122,9 +122,9 @@ export const FileUploadPanel: React.FC<FileUploadPanelProps> = ({
             <FileText className="w-5 h-5" />
           </div>
           <div className="min-w-0">
-            <h2 className="text-sm font-semibold text-slate-900">Templat Rujukan</h2>
+            <h2 className="text-sm font-semibold text-slate-900">Sijil Rujukan</h2>
             <p className="text-xs text-slate-500 truncate mt-0.5" title={templateFileName}>{templateFileName}</p>
-            <p className="text-[11px] text-slate-400 mt-0.5">{templatePageCount} halaman · pratonton kalibrasi sahaja</p>
+            <p className="text-[11px] text-slate-400 mt-0.5">{templatePageCount} halaman · previu kalibrasi sahaja</p>
           </div>
         </div>
 
@@ -142,7 +142,7 @@ export const FileUploadPanel: React.FC<FileUploadPanelProps> = ({
             className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 text-xs font-medium hover:bg-slate-50 cursor-pointer"
           >
             <Upload className="w-3.5 h-3.5" />
-            Tukar Templat
+            Tukar Sijil
           </button>
           {templateFileName !== 'SIJIL TUNAS MAIM (PRINT).pdf' && (
             <button

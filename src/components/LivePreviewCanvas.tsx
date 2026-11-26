@@ -94,7 +94,7 @@ export const LivePreviewCanvas: React.FC<LivePreviewCanvasProps> = ({
       {/* ── Top Bar ── */}
       <div className="px-4 py-2.5 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2 bg-slate-50/60">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-bold text-slate-700 uppercase tracking-wide">Pratonton</span>
+          <span className="text-xs font-bold text-slate-700 uppercase tracking-wide">Previu</span>
           <span className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-medium">
             {certificateType.title}
           </span>
@@ -109,10 +109,10 @@ export const LivePreviewCanvas: React.FC<LivePreviewCanvasProps> = ({
               className={`inline-flex items-center gap-1 px-2 py-1 rounded-md font-medium cursor-pointer ${
                 !whiteOutputPreview ? 'bg-emerald-600 text-white' : 'text-slate-500 hover:text-slate-800'
               }`}
-              title="Latar templat sijil"
+              title="Latar sijil"
             >
               <Layers className="w-3 h-3" />
-              Templat
+              Sijil
             </button>
             <button
               type="button"
@@ -196,7 +196,7 @@ export const LivePreviewCanvas: React.FC<LivePreviewCanvasProps> = ({
         {!whiteOutputPreview && (isLoadingTemplate || !templateImage) ? (
           <div className="flex flex-col items-center justify-center py-20 text-slate-400 text-xs gap-2">
             <div className="w-8 h-8 rounded-full border-2 border-emerald-500 border-t-transparent animate-spin" />
-            <span>Memuatkan templat PDF...</span>
+            <span>Memuatkan sijil PDF...</span>
           </div>
         ) : (
           <div
@@ -206,7 +206,7 @@ export const LivePreviewCanvas: React.FC<LivePreviewCanvasProps> = ({
             {!whiteOutputPreview && templateImage && (
               <img
                 src={templateImage.dataUrl}
-                alt={`Templat ${certificateType.title}`}
+                alt={`Sijil ${certificateType.title}`}
                 className="w-full h-full block select-none pointer-events-none"
               />
             )}
