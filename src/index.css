@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+.calibration-number { appearance: textfield; -moz-appearance: textfield; }
+.calibration-number::-webkit-inner-spin-button,
+.calibration-number::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
+@layer base {
+  body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
