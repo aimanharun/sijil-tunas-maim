@@ -4,7 +4,7 @@ Aplikasi untuk menyediakan sijil peserta daripada fail Excel dan templat PDF. Di
 
 ## Demo
 
-Pautan demo Cloudflare Pages akan ditambah selepas deployment disahkan.
+[Cuba demo Sijil Tunas MAIM](https://sijil-tunas-maim.pages.dev/)
 
 ## Jalankan di komputer
 
