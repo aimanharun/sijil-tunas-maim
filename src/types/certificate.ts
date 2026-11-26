@@ -21,7 +21,6 @@ export interface CertificateDynamicValues {
 }
 
 export interface CertificateSettings {
-  autoFitLongText: boolean;
   uppercaseNames: boolean;
 }
 
