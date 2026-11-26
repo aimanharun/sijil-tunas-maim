@@ -70,8 +70,8 @@ export const ParticipantTable: React.FC<ParticipantTableProps> = ({
 
   const FILTERS: { id: FilterMode; label: string; count: number; color?: string }[] = [
     { id: 'all', label: 'Semua', count: stats.total },
-    { id: 'issues', label: 'Isu IC', count: stats.fixable + stats.invalid, color: 'amber' },
-    { id: 'standard', label: 'IC Sah', count: stats.standard, color: 'emerald' },
+    { id: 'issues', label: 'Isu No KP', count: stats.fixable + stats.invalid, color: 'amber' },
+    { id: 'standard', label: 'No KP Sah', count: stats.standard, color: 'emerald' },
     { id: 'selected', label: 'Dipilih', count: stats.selected },
   ];
 
@@ -85,7 +85,7 @@ export const ParticipantTable: React.FC<ParticipantTableProps> = ({
           <div className="text-xl font-bold text-slate-900 mt-0.5">{stats.total}</div>
         </div>
         <div className="px-4 py-3">
-          <div className="text-[11px] text-emerald-600 font-medium uppercase tracking-wide">IC Sah</div>
+          <div className="text-[11px] text-emerald-600 font-medium uppercase tracking-wide">No KP Sah</div>
           <div className="text-xl font-bold text-emerald-700 mt-0.5">{stats.standard}</div>
         </div>
         <div className="px-4 py-3">
@@ -108,7 +108,7 @@ export const ParticipantTable: React.FC<ParticipantTableProps> = ({
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Cari nama / IC..."
+              placeholder="Cari nama / No KP..."
               className="pl-8 pr-3 py-1.5 text-xs rounded-lg border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 w-48"
             />
           </div>
@@ -143,7 +143,7 @@ export const ParticipantTable: React.FC<ParticipantTableProps> = ({
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-100 text-amber-800 hover:bg-amber-200 text-xs font-semibold cursor-pointer"
             >
               <Wand2 className="w-3.5 h-3.5" />
-              Auto-Baiki IC ({stats.fixable})
+              Auto-Baiki No KP ({stats.fixable})
             </button>
           )}
           <button type="button" onClick={onUppercaseAllNames} className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 text-xs font-medium cursor-pointer" title="Tukar semua nama ke HURUF BESAR">
@@ -156,7 +156,7 @@ export const ParticipantTable: React.FC<ParticipantTableProps> = ({
               Semua
             </button>
             <button type="button" onClick={() => onSelectGroup('standard_only')} className="px-2.5 py-1.5 text-slate-600 hover:bg-slate-50 cursor-pointer border-r border-slate-200">
-              IC Sah
+              No KP Sah
             </button>
             <button type="button" onClick={() => onSelectGroup('none')} className="inline-flex items-center gap-1 px-2.5 py-1.5 text-slate-600 hover:bg-slate-50 cursor-pointer">
               <Square className="w-3.5 h-3.5 text-slate-400" />
@@ -179,7 +179,7 @@ export const ParticipantTable: React.FC<ParticipantTableProps> = ({
               <th className="py-2.5 px-2 w-10 text-center">#</th>
               <th className="py-2.5 px-3 min-w-[220px]">Nama Peserta</th>
               <th className="py-2.5 px-3 w-44">No. Kad Pengenalan</th>
-              <th className="py-2.5 px-3 min-w-[200px]">Status IC</th>
+              <th className="py-2.5 px-3 min-w-[200px]">Status No KP</th>
               <th className="py-2.5 px-3 w-20 text-right">Aksi</th>
             </tr>
           </thead>
@@ -277,10 +277,11 @@ export const ParticipantTable: React.FC<ParticipantTableProps> = ({
                         <button
                           type="button"
                           onClick={() => onPreviewParticipant(row.id)}
+                          disabled={!row.selected}
                           className={`p-1.5 rounded-lg cursor-pointer transition-colors ${
-                            isPreviewed ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:bg-slate-100 hover:text-slate-700'
+                            !row.selected ? 'text-slate-300 cursor-not-allowed' : isPreviewed ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:bg-slate-100 hover:text-slate-700'
                           }`}
-                          title="Previu sijil"
+                          title={row.selected ? "Previu sijil" : "Tanda peserta untuk previu"}
                         >
                           <Eye className="w-3.5 h-3.5" />
                         </button>
