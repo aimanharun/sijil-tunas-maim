@@ -236,7 +236,7 @@ export function App() {
         return { ...row, ic: row.suggestedIc, icStatus: validation.icStatus, icIssues: validation.icIssues, suggestedIc: validation.suggestedIc };
       }),
     }));
-    if (fixedCount > 0) setStatusBanner(`${fixedCount} No. IC berjaya dibaiki.`);
+    if (fixedCount > 0) setStatusBanner(`${fixedCount} No KP berjaya dibaiki.`);
   };
 
   const handleUppercaseAllNames = () => {
@@ -260,7 +260,7 @@ export function App() {
 
   const handlePreviewParticipant = (id: string) => {
     const idx = participants.findIndex((p) => p.id === id);
-    if (idx !== -1) {
+    if (idx !== -1 && participants[idx].selected) {
       updateActiveDataset((ds) => ({ ...ds, previewIndex: idx }));
       setActiveStep('studio');
     }
@@ -316,6 +316,8 @@ export function App() {
   };
 
   const selectedParticipants = useMemo(() => participants.filter((p) => p.selected), [participants]);
+  const previewParticipant = participants[activeDataset.previewIndex];
+  const previewSelectedIndex = Math.max(0, selectedParticipants.findIndex((p) => p.id === previewParticipant?.id));
   const selectedIssueCount = useMemo(() => selectedParticipants.filter((p) => p.icStatus !== 'standard').length, [selectedParticipants]);
 
   const handleExportPdf = async (mode: 'download' | 'print') => {
@@ -418,7 +420,7 @@ export function App() {
                 className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-50 border border-amber-300 text-amber-800 text-xs font-semibold hover:bg-amber-100 cursor-pointer"
               >
                 <AlertTriangle className="w-3.5 h-3.5" />
-                {selectedIssueCount} isu IC
+                {selectedIssueCount} isu No KP
               </button>
             )}
             <button
@@ -534,7 +536,7 @@ export function App() {
 
             <ParticipantTable
               participants={participants}
-              previewParticipantId={participants[activeDataset.previewIndex]?.id ?? null}
+              previewParticipantId={selectedParticipants[previewSelectedIndex]?.id ?? null}
               onUpdateRow={handleUpdateRow}
               onToggleSelect={handleToggleSelect}
               onSelectGroup={handleSelectGroup}
@@ -574,14 +576,18 @@ export function App() {
                 templateImage={currentTemplateImage}
                 isLoadingTemplate={isLoadingTemplate}
                 certificateType={selectedType}
-                participants={participants}
-                previewParticipantIndex={activeDataset.previewIndex}
+                participants={selectedParticipants}
+                previewParticipantIndex={previewSelectedIndex}
                 dynamicValues={activeDynamicValues}
                 calibration={activeCalibration}
                 activeField={activeField}
                 autoFitLongText={activeSettings.autoFitLongText}
                 uppercaseNames={activeSettings.uppercaseNames}
-                onChangePreviewIndex={(idx) => updateActiveDataset((ds) => ({ ...ds, previewIndex: idx }))}
+                onChangePreviewIndex={(idx) => {
+                  const participant = selectedParticipants[idx];
+                  if (!participant) return;
+                  updateActiveDataset((ds) => ({ ...ds, previewIndex: ds.rows.findIndex((row) => row.id === participant.id) }));
+                }}
                 onSelectActiveField={setActiveField}
               />
             </div>
