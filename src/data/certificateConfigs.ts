@@ -27,7 +27,7 @@ export const CERTIFICATE_TYPES: CertificateTypeDefinition[] = [
       tarikh: '4-6 DISEMBER 2026',
     },
     defaultCalibration: {
-      nama: { x: 297.5, y: 538, fontSize: 23 },
+      nama: { x: 297.5, y: 538, fontSize: 20 },
       ic: { x: 297.5, y: 455, fontSize: 20 },
       anugerah: { x: 297.5, y: 374, fontSize: 28 },
       program: { x: 297.5, y: 288, fontSize: 28 },
@@ -48,7 +48,7 @@ export const CERTIFICATE_TYPES: CertificateTypeDefinition[] = [
       tarikh: '11-13 DISEMBER 2026',
     },
     defaultCalibration: {
-      nama: { x: 297.5, y: 538, fontSize: 23 },
+      nama: { x: 297.5, y: 538, fontSize: 20 },
       ic: { x: 297.5, y: 455, fontSize: 20 },
       anugerah: { x: 297.5, y: 374, fontSize: 28 },
       program: { x: 297.5, y: 288, fontSize: 28 },
@@ -69,7 +69,7 @@ export const CERTIFICATE_TYPES: CertificateTypeDefinition[] = [
       tarikh: '4-6 DISEMBER 2026',
     },
     defaultCalibration: {
-      nama: { x: 297.5, y: 538, fontSize: 23 },
+      nama: { x: 297.5, y: 538, fontSize: 20 },
       ic: { x: 297.5, y: 455, fontSize: 20 },
       anugerah: { x: 297.5, y: 381.6, fontSize: 28 },
       program: { x: 297.5, y: 373, fontSize: 28 },
@@ -90,7 +90,7 @@ export const CERTIFICATE_TYPES: CertificateTypeDefinition[] = [
       tarikh: '11-13 DISEMBER 2026',
     },
     defaultCalibration: {
-      nama: { x: 297.5, y: 538, fontSize: 23 },
+      nama: { x: 297.5, y: 538, fontSize: 20 },
       ic: { x: 297.5, y: 455, fontSize: 20 },
       anugerah: { x: 297.5, y: 381.6, fontSize: 28 },
       program: { x: 297.5, y: 373, fontSize: 28 },
