@@ -17,6 +17,7 @@ import {
 } from '../types/certificate';
 import { RenderedTemplatePage } from '../utils/pdfService';
 import { DEFAULT_MAX_TEXT_WIDTH, FIELD_LABELS } from '../data/certificateConfigs';
+import { layoutNameLines } from '../utils/nameLayout';
 
 interface LivePreviewCanvasProps {
   templateImage: RenderedTemplatePage | null;
@@ -27,7 +28,6 @@ interface LivePreviewCanvasProps {
   dynamicValues: CertificateDynamicValues;
   calibration: CalibrationMap;
   activeField: FieldKey;
-  autoFitLongText: boolean;
   uppercaseNames: boolean;
   onChangePreviewIndex: (idx: number) => void;
   onSelectActiveField: (field: FieldKey) => void;
@@ -35,14 +35,6 @@ interface LivePreviewCanvasProps {
 
 const measureCtx =
   typeof document !== 'undefined' ? document.createElement('canvas').getContext('2d') : null;
-
-function computeFittedFontSize(text: string, baseSize: number, maxWidth: number, enabled: boolean): number {
-  if (!enabled || !text || !measureCtx) return baseSize;
-  measureCtx.font = `700 ${baseSize}px Helvetica, Arial, sans-serif`;
-  const measured = measureCtx.measureText(text).width;
-  if (measured <= maxWidth) return baseSize;
-  return Math.max(9, (baseSize * maxWidth) / measured);
-}
 
 export const LivePreviewCanvas: React.FC<LivePreviewCanvasProps> = ({
   templateImage,
@@ -53,7 +45,6 @@ export const LivePreviewCanvas: React.FC<LivePreviewCanvasProps> = ({
   dynamicValues,
   calibration,
   activeField,
-  autoFitLongText,
   uppercaseNames,
   onChangePreviewIndex,
   onSelectActiveField,
@@ -69,16 +60,16 @@ export const LivePreviewCanvas: React.FC<LivePreviewCanvasProps> = ({
     const displayName = uppercaseNames ? rawName.toUpperCase() : rawName;
     const displayIc = currentParticipant?.ic || '101010-10-1010';
 
-    const items: Array<{ key: FieldKey; text: string; maxWidth: number }> = [
-      { key: 'nama', text: displayName, maxWidth: DEFAULT_MAX_TEXT_WIDTH },
-      { key: 'ic', text: displayIc, maxWidth: DEFAULT_MAX_TEXT_WIDTH },
+    const items: Array<{ key: FieldKey; text: string }> = [
+      { key: 'nama', text: displayName },
+      { key: 'ic', text: displayIc },
     ];
     if (certificateType.hasAnugerah) {
-      items.push({ key: 'anugerah', text: dynamicValues.anugerah, maxWidth: 520 });
+      items.push({ key: 'anugerah', text: dynamicValues.anugerah });
     }
     items.push(
-      { key: 'program', text: dynamicValues.program, maxWidth: 520 },
-      { key: 'tarikh', text: dynamicValues.tarikh, maxWidth: 520 }
+      { key: 'program', text: dynamicValues.program },
+      { key: 'tarikh', text: dynamicValues.tarikh }
     );
     return items;
   }, [currentParticipant, uppercaseNames, certificateType.hasAnugerah, dynamicValues]);
@@ -225,7 +216,11 @@ export const LivePreviewCanvas: React.FC<LivePreviewCanvasProps> = ({
 
               {previewItems.map((item) => {
                 const cal = calibration[item.key];
-                const fittedSize = computeFittedFontSize(item.text, cal.fontSize, item.maxWidth, autoFitLongText);
+                if (measureCtx) measureCtx.font = `700 ${cal.fontSize}px Helvetica, Arial, sans-serif`;
+                const lines = item.key === 'nama' && measureCtx
+                  ? layoutNameLines(item.text, DEFAULT_MAX_TEXT_WIDTH, (text) => measureCtx!.measureText(text).width)
+                  : [item.text];
+                const offset = lines.length === 2 ? cal.fontSize * 0.58 : 0;
                 const svgY = pageHeight - cal.y;
                 const isActive = item.key === activeField;
                 return (
@@ -236,12 +231,16 @@ export const LivePreviewCanvas: React.FC<LivePreviewCanvasProps> = ({
                       y={svgY}
                       textAnchor="middle"
                       dominantBaseline="alphabetic"
-                      fontSize={fittedSize}
+                      fontSize={cal.fontSize}
                       fontWeight="700"
-                      fontFamily="'Helvetica Neue', Helvetica, Arial, sans-serif"
+                      fontFamily="Helvetica, Arial, sans-serif"
                       fill="#000000"
                     >
-                      {item.text}
+                      {lines.map((line, index) => (
+                        <tspan key={index} x={cal.x} dy={index === 0 ? -offset : offset * 2}>
+                          {line}
+                        </tspan>
+                      ))}
                     </text>
                   </g>
                 );
