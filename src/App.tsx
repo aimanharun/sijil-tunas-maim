@@ -81,7 +81,7 @@ function buildInitialDatasets(): Record<CertificateTypeId, ParticipantDataset> {
 }
 
 function buildInitialSettings(): Record<CertificateTypeId, CertificateSettings> {
-  const base = { autoFitLongText: true, uppercaseNames: true };
+  const base = { uppercaseNames: true };
   return {
     penghargaan_bestari: { ...base },
     penghargaan_belia: { ...base },
@@ -332,7 +332,6 @@ export function App() {
         participants: selectedParticipants,
         dynamicValues: activeDynamicValues,
         calibration: activeCalibration,
-        autoFitLongText: activeSettings.autoFitLongText,
         uppercaseNames: activeSettings.uppercaseNames,
         onProgress: (done, total) => setGenerationProgress({ done, total }),
       });
@@ -559,14 +558,12 @@ export function App() {
                 dynamicValues={activeDynamicValues}
                 calibration={activeCalibration}
                 activeField={activeField}
-                autoFitLongText={activeSettings.autoFitLongText}
                 uppercaseNames={activeSettings.uppercaseNames}
                 onChangeDynamicValue={handleChangeDynamicValue}
                 onSelectActiveField={setActiveField}
                 onChangeCalibration={handleChangeCalibration}
                 onResetCalibration={handleResetCalibration}
                 onCopyCalibrationToTargets={handleCopyCalibrationToTargets}
-                onToggleAutoFit={(val) => setSettingsMap((prev) => ({ ...prev, [selectedTypeId]: { ...prev[selectedTypeId], autoFitLongText: val } }))}
                 onToggleUppercaseNames={(val) => setSettingsMap((prev) => ({ ...prev, [selectedTypeId]: { ...prev[selectedTypeId], uppercaseNames: val } }))}
                 onSwitchCertificateStep={() => setActiveStep('select')}
               />
@@ -581,7 +578,6 @@ export function App() {
                 dynamicValues={activeDynamicValues}
                 calibration={activeCalibration}
                 activeField={activeField}
-                autoFitLongText={activeSettings.autoFitLongText}
                 uppercaseNames={activeSettings.uppercaseNames}
                 onChangePreviewIndex={(idx) => {
                   const participant = selectedParticipants[idx];
