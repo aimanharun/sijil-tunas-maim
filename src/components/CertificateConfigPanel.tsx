@@ -28,14 +28,12 @@ interface CertificateConfigPanelProps {
   dynamicValues: CertificateDynamicValues;
   calibration: CalibrationMap;
   activeField: FieldKey;
-  autoFitLongText: boolean;
   uppercaseNames: boolean;
   onChangeDynamicValue: (field: keyof CertificateDynamicValues, value: string) => void;
   onSelectActiveField: (field: FieldKey) => void;
   onChangeCalibration: (field: FieldKey, next: Partial<FieldCalibration>) => void;
   onResetCalibration: () => void;
   onCopyCalibrationToTargets: (targetIds: CertificateTypeId[], fields: FieldKey[], includeDisplaySettings: boolean) => void;
-  onToggleAutoFit: (val: boolean) => void;
   onToggleUppercaseNames: (val: boolean) => void;
   onSwitchCertificateStep: () => void;
 }
@@ -47,14 +45,12 @@ export const CertificateConfigPanel: React.FC<CertificateConfigPanelProps> = ({
   dynamicValues,
   calibration,
   activeField,
-  autoFitLongText,
   uppercaseNames,
   onChangeDynamicValue,
   onSelectActiveField,
   onChangeCalibration,
   onResetCalibration,
   onCopyCalibrationToTargets,
-  onToggleAutoFit,
   onToggleUppercaseNames,
   onSwitchCertificateStep,
 }) => {
@@ -177,10 +173,6 @@ export const CertificateConfigPanel: React.FC<CertificateConfigPanelProps> = ({
         </div>
 
         <div className="pt-2 border-t border-slate-100 space-y-2">
-          <label className="inline-flex items-center gap-2 text-xs text-slate-600 cursor-pointer">
-            <input type="checkbox" checked={autoFitLongText} onChange={(e) => onToggleAutoFit(e.target.checked)} className="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500" />
-            Auto-kecilkan fon jika teks panjang
-          </label>
           <label className="inline-flex items-center gap-2 text-xs text-slate-600 cursor-pointer">
             <input type="checkbox" checked={uppercaseNames} onChange={(e) => onToggleUppercaseNames(e.target.checked)} className="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500" />
             Nama peserta dalam HURUF BESAR
