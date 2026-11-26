@@ -176,7 +176,7 @@ export const LivePreviewCanvas: React.FC<LivePreviewCanvasProps> = ({
               ))}
             </select>
           ) : (
-            <div className="text-center text-xs text-slate-400">Tiada peserta — memaparkan teks contoh</div>
+            <div className="text-center text-xs text-slate-400">Tiada peserta ditanda — memaparkan teks contoh</div>
           )}
         </div>
 
