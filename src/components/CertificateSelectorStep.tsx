@@ -115,8 +115,8 @@ export const CertificateSelectorStep: React.FC<CertificateSelectorStepProps> = (
                 <div className="text-sm font-bold text-slate-900">{cert.track}</div>
                 <div className="text-xs text-slate-500 mt-0.5">
                   {cert.hasAnugerah
-                    ? 'Nama · IC · Anugerah · Program · Tarikh'
-                    : 'Nama · IC · Program · Tarikh'}
+                    ? 'Nama · No KP · Anugerah · Program · Tarikh'
+                    : 'Nama · No KP · Program · Tarikh'}
                 </div>
               </div>
 
