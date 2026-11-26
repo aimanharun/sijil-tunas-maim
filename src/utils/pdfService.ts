@@ -1,5 +1,6 @@
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import * as pdfjsLib from 'pdfjs-dist';
+import { layoutNameLines } from './nameLayout';
 import {
   CalibrationMap,
   CertificateDynamicValues,
@@ -76,7 +77,6 @@ export interface BulkGenerateOptions {
   participants: ParticipantRow[];
   dynamicValues: CertificateDynamicValues;
   calibration: CalibrationMap;
-  autoFitLongText: boolean;
   uppercaseNames: boolean;
   onProgress?: (completed: number, total: number) => void;
 }
@@ -95,7 +95,6 @@ export async function generateBulkCertificatesPdf(
     participants,
     dynamicValues,
     calibration,
-    autoFitLongText,
     uppercaseNames,
     onProgress,
   } = options;
@@ -122,26 +121,32 @@ export async function generateBulkCertificatesPdf(
   const drawCenteredField = (
     page: ReturnType<PDFDocument['getPage']>,
     rawText: string,
-    cal: { x: number; y: number; fontSize: number },
-    maxWidth: number
+    cal: { x: number; y: number; fontSize: number }
   ) => {
     const text = sanitizePdfText(rawText.trim());
     if (!text) return;
-
-    let size = cal.fontSize;
-    let width = boldFont.widthOfTextAtSize(text, size);
-    if (autoFitLongText && width > maxWidth) {
-      size = Math.max(9, (size * maxWidth) / width);
-      width = boldFont.widthOfTextAtSize(text, size);
-    }
-
+    const width = boldFont.widthOfTextAtSize(text, cal.fontSize);
     page.drawText(text, {
       x: cal.x - width / 2,
       y: cal.y,
-      size,
+      size: cal.fontSize,
       font: boldFont,
       color: rgb(0, 0, 0),
     });
+  };
+
+  const drawName = (
+    page: ReturnType<PDFDocument['getPage']>,
+    rawName: string,
+    cal: { x: number; y: number; fontSize: number }
+  ) => {
+    const name = sanitizePdfText(rawName);
+    const lines = layoutNameLines(name, DEFAULT_MAX_TEXT_WIDTH, (text) => boldFont.widthOfTextAtSize(text, cal.fontSize));
+    const offset = lines.length === 2 ? cal.fontSize * 0.58 : 0;
+    lines.forEach((line, index) => drawCenteredField(page, line, {
+      ...cal,
+      y: cal.y + (index === 0 ? offset : -offset),
+    }));
   };
 
   for (let i = 0; i < participants.length; i++) {
@@ -158,15 +163,15 @@ export async function generateBulkCertificatesPdf(
     });
 
     const displayName = uppercaseNames ? p.nama.toUpperCase() : p.nama;
-    drawCenteredField(page, displayName, calibration.nama, DEFAULT_MAX_TEXT_WIDTH);
-    drawCenteredField(page, p.ic, calibration.ic, DEFAULT_MAX_TEXT_WIDTH);
+    drawName(page, displayName, calibration.nama);
+    drawCenteredField(page, p.ic, calibration.ic);
 
     if (certificateType.hasAnugerah) {
-      drawCenteredField(page, dynamicValues.anugerah, calibration.anugerah, 520);
+      drawCenteredField(page, dynamicValues.anugerah, calibration.anugerah);
     }
 
-    drawCenteredField(page, dynamicValues.program, calibration.program, 520);
-    drawCenteredField(page, dynamicValues.tarikh, calibration.tarikh, 520);
+    drawCenteredField(page, dynamicValues.program, calibration.program);
+    drawCenteredField(page, dynamicValues.tarikh, calibration.tarikh);
 
     if (onProgress && (i % 10 === 0 || i === participants.length - 1)) {
       onProgress(i + 1, participants.length);
